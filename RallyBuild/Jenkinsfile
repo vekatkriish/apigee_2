@@ -10,7 +10,7 @@ pipeline {
         stage('resolve_task') {
             steps {
                 script{
-                        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dfab18cc-f6ae-4d8e-abef-20bf702446bd', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+                        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: '46d318e0-7de7-49ab-86ae-1669225823c1', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
                              String encoded_password = java.net.URLEncoder.encode(env.GIT_PASSWORD, "UTF-8")
                              gitrepo = 'github.com/vekatkriish/apigee_2.git'
                              dir ('RallyBuild') {
