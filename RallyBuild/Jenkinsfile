@@ -1,23 +1,24 @@
 pipeline {
     agent any
-    parameters {
-        string(name: 'giturl', defaultValue: 'https://github.com/vekatkriish/apigee_2.git', description: '')
-        string(name: 'gitCid', defaultValue: '46d318e0-7de7-49ab-86ae-1669225823c1', description: '')
+    environment { 
+        giturl = 'https://github.com/vekatkriish/apigee_2.git'
+        gitCid = '46d318e0-7de7-49ab-86ae-1669225823c1'
     }
+    
     stages {
         stage('checkout_script') {
             steps {
-                git changelog: false, credentialsId: ${params.gitCid}, poll: false, url: ${params.giturl}
+                git changelog: false, credentialsId: env.gitCid, poll: false, url: env.giturl
             }
         }
         stage('resolve_task') {
             steps {
                 script{
-                        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: '46d318e0-7de7-49ab-86ae-1669225823c1', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+                        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: env.gitCid, usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
                              String encoded_password = java.net.URLEncoder.encode(env.GIT_PASSWORD, "UTF-8")
-                             gitrepo = ${params.giturl}.split('//')[1].trim()
+                             gitrepo = (env.giturl).split('//')[1].trim()
                              dir ('RallyBuild') {
-                                isBranchExists = sh(script: 'git ls-remote --heads ${params.giturl} ${branchName} | wc -l', returnStdout: true).trim()
+                                isBranchExists = sh(script: 'git ls-remote --heads ${giturl} ${branchName} | wc -l', returnStdout: true).trim()
                                 if(isBranchExists == 1){
                                     error 'branch '+ env.branchName +'already exixts'
                                 }else{
