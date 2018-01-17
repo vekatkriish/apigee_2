@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('checkout_script') {
             steps {
-                git changelog: false, credentialsId: '46d318e0-7de7-49ab-86ae-1669225823c1', poll: false, url: 'https://github.com/vekatkriish/apigee.git'
+                git changelog: false, credentialsId: '46d318e0-7de7-49ab-86ae-1669225823c1', poll: false, url: 'https://github.com/vekatkriish/apigee_2.git'
             }
         }
         stage('resolve_task') {
@@ -12,19 +12,19 @@ pipeline {
                 script{
                         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dfab18cc-f6ae-4d8e-abef-20bf702446bd', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
                              String encoded_password = java.net.URLEncoder.encode(env.GIT_PASSWORD, "UTF-8")
-                             gitrepo = 'github.com/vekatkriish/apigee.git'
+                             gitrepo = 'github.com/vekatkriish/apigee_2.git'
                              dir ('RallyBuild') {
-                                isBranchExists = sh(script: 'echo git ls-remote --heads https://github.com/vekatkriish/apigee.git ' + env.description + ' | wc -l', returnStdout: true).trim()
+                                isBranchExists = sh(script: 'echo git ls-remote --heads https://github.com/vekatkriish/apigee_2.git ' + env.branchName + ' | wc -l', returnStdout: true).trim()
                                 if(isBranchExists == 1){
-                                    error 'branch '+ env.description +'already exixts'
+                                    error 'branch '+ env.branchName +'already exixts'
                                 }else{
                                     echo 'creating git branch'
-                                    sh 'git branch $(description)'
+                                    sh 'git branch '+env.branchName
                                     sh 'chmod +x gitcommit.sh'
-                                    ret = sh(script: './gitcommit.sh '+ env.GIT_USERNAME +' '+encoded_password+' '+gitrepo+' '+env.description, returnStdout: true).trim()
+                                    ret = sh(script: './gitcommit.sh '+ env.GIT_USERNAME +' '+encoded_password+' '+gitrepo+' '+env.branchName, returnStdout: true).trim()
                                     echo 'Git Branch Commit & Push Status: '+ret
                                     if(ret == 'OK'){
-                                        echo 'git branch '+env.description)+' created'
+                                        echo 'git branch ' + env.branchName + ' created'
                                     }else{
                                         error 'git unable to commit'
                                     }
@@ -41,11 +41,6 @@ pipeline {
                 dir ('RallyBuild') {
                     sh 'python updateTask.py $fmtId $notes $BUILD_URL'
                 }
-            script{
-                mail (to: env.notes.split(';')[0].trim(),
-                     subject: 'Job '+env.JOB_NAME+' '+env.BUILD_NUMBER+' is sucesses',
-                    body: "please visit {$BUILD_URL} for more details.");
-            }
             script{
                 mail (to: env.notes.split(';')[0].trim(),
                      subject: 'Job '+env.JOB_NAME+' '+env.BUILD_NUMBER+' is sucesses',
