@@ -22,12 +22,14 @@ pipeline {
                                 if(isBranchExists == 1){
                                     error 'branch '+ env.branchName +'already exixts'
                                 }else{
-                                    isLocalBranchExists = sh(script: 'git branch -a | grep ${branchName} | wc -l', returnStdout: true).trim()
+                                    git branch --delete ${branchName}
+                                    /*isLocalBranchExists = sh(script: 'git branch -a | grep ${branchName} | wc -l', returnStdout: true).trim()
+
                                     echo isLocalBranchExists+'   ****'
                                     if(isLocalBranchExists != 0){
                                         echo 'found local git branch so, deleting to resolve ambiguity'
                                         sh(script: 'git branch --delete ${branchName}')
-                                    }
+                                    }*/
                                     echo 'creating new branch ....'
                                     sh 'git branch ${branchName}'
                                     sh 'chmod +x gitcommit.sh'
