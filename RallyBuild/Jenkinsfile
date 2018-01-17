@@ -22,7 +22,7 @@ pipeline {
                                 if(isBranchExists == 1){
                                     error 'branch '+ env.branchName +'already exixts'
                                 }else{
-                                    git branch --delete ${branchName}
+                                    sh(script: 'git branch --delete ${branchName}')
                                     /*isLocalBranchExists = sh(script: 'git branch -a | grep ${branchName} | wc -l', returnStdout: true).trim()
 
                                     echo isLocalBranchExists+'   ****'
