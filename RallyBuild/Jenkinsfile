@@ -14,7 +14,7 @@ pipeline {
                              String encoded_password = java.net.URLEncoder.encode(env.GIT_PASSWORD, "UTF-8")
                              gitrepo = 'github.com/vekatkriish/apigee_2.git'
                              dir ('RallyBuild') {
-                                isBranchExists = sh(script: 'git ls-remote --heads https://github.com/vekatkriish/apigee_2.git ' + env.branchName + ' | wc -l', returnStdout: true).trim()
+                                isBranchExists = sh(script: 'git ls-remote --heads https://github.com/vekatkriish/apigee_2.git ${branchName} | wc -l', returnStdout: true).trim()
                                 if(isBranchExists == 1){
                                     error 'branch '+ env.branchName +'already exixts'
                                 }else{
