@@ -24,7 +24,7 @@ pipeline {
                                 }else{
                                     isLocalBranchExists = sh(script: 'git branch -a | grep ${branchName} | wc -l', returnStdout: true).trim()
                                     echo isLocalBranchExists+'   ****'
-                                    if(isLocalBranchExists > 0){
+                                    if(isLocalBranchExists != 0){
                                         echo 'found local git branch so, deleting to resolve ambiguity'
                                         sh(script: 'git branch --delete ${branchName}')
                                     }
