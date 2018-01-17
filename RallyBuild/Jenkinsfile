@@ -25,7 +25,7 @@ pipeline {
                                     sh 'chmod +x checkLocalBranch.sh'
                                     isLocalBranchExists = sh(script: './checkLocalBranch.sh ${branchName}', returnStdout: true)
                                     echo isLocalBranchExists+'   ****'
-                                    if(isLocalBranchExists){
+                                    if(isLocalBranchExists == true){
                                         echo 'found local git branch so, deleting to resolve ambiguity'
                                         sh(script: 'git branch --delete ${branchName}')
                                     }
