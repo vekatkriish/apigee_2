@@ -13,7 +13,7 @@ os.environ['rtoken']='f1d8616e8d8fcd48ecf5f721361b4a21'
 
 args = sys.argv
 usID = sys.argv[1]
-pipelineUrl = 'http://localhost:8080/job/Apigee_proj/job/RallyBuild/build'
+pipelineUrl = 'http://localhost:8080/job/Apigee_proj/job/RallyBuild/build '
 
 #response = rally.get('UserStory', fetch=True, query='State != "Closed"')
 
