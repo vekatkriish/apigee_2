@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('script_checkout') {
+            steps {
+                script{
+                    git changelog: false, credentialsId: '46d318e0-7de7-49ab-86ae-1669225823c1', poll: false, url: 'https://github.com/vekatkriish/apigee.git'
+                }
+            }
+        }
+
+        stage('initiate_builds') {
+            steps {
+                script{
+                    dir ('RallyAutomation') {
+                        sh 'chmod +x startPipeline.sh'
+                        sh 'python readTickets.py US10'
+                    }
+                }
+
+            }
+        }
+    }
+}

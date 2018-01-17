@@ -1,0 +1,5 @@
+2018-01-15 18:58:20.056 Following entries record Rally REST API interaction via https://rally1.rallydev.com/slm/webservice/v2.0 for user: None
+2018-01-15 18:58:20.057 GET HierarchicalRequirement?fetch=true&query=(FormattedID = US10)&workspace=workspace/189830971492&project=project/189830971828&projectScopeUp=false&projectScopeDown=false&pagesize=500&start=1
+2018-01-15 18:58:20.456 200 HierarchicalRequirement?fetch=true&query=(FormattedID%20%3D%20US10)&workspace=workspace/189830971492&project=project TotalResultCount 1
+2018-01-15 18:58:20.465 GET https://rally1.rallydev.com/slm/webservice/v2.0/HierarchicalRequirement/189961714836/Tasks?pagesize=500&start=1&workspace=workspace/189830971492&project=project/189830971828
+2018-01-15 18:58:20.951 200 HierarchicalRequirement/189961714836/Tasks?pagesize=500&start=1&workspace=workspace/189830971492&project=project TotalResultCount 4

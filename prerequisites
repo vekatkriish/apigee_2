@@ -1,0 +1,14 @@
+python2.7(python 3 is better to have)
+
+sudo pip install pyral
+
+jenkins api credensials
+
+python libraries used:
+pyral
+requests
+python version 2.7.5
+
+to import python libraries use below commands:
+pip install --user pyral
+pip install --user requests

@@ -1,0 +1,12 @@
+chmod +x startPipeline.sh
+
+python readTickets.py <userstory formatted Id>
+
+http://localhost:8080/job/Apigee_proj/job/apigee_build/build  venkatkriish:f1d8616e8d8fcd48ecf5f721361b4a21  
+
+python updateTask.py <ticketId> <Notes>
+
+git archive --format=tar --prefix=RallyAutomation/ | gzip >RallyAutomation.tar.gz
+
+
+git archive --format=tar --prefix=RallyAutomation/ HEAD | (tar xf -) 
