@@ -19,9 +19,9 @@ pipeline {
                                     error 'branch '+ env.branchName +'already exixts'
                                 }else{
                                     echo 'creating git branch'
-                                    sh 'git branch '+env.branchName
+                                    sh 'git branch ${branchName}'
                                     sh 'chmod +x gitcommit.sh'
-                                    ret = sh(script: './gitcommit.sh '+ env.GIT_USERNAME +' '+encoded_password+' '+gitrepo+' '+env.branchName, returnStdout: true).trim()
+                                    ret = sh(script: './gitcommit.sh '+ env.GIT_USERNAME +' '+encoded_password+' '+gitrepo+' '+' origin '+env.branchName, returnStdout: true).trim()
                                     echo 'Git Branch Commit & Push Status: '+ret
                                     if(ret == 'OK'){
                                         echo 'git branch ' + env.branchName + ' created'
