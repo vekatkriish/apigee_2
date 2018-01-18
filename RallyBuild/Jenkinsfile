@@ -50,7 +50,7 @@ pipeline {
                                         sh 'git checkout ${branch2}'
                                         sh 'git merge '+sourceBranch + ' -m "feature branch ${branch1} merged"'
                                         sh 'chmod +x gitcommit.sh'
-                                        ret = sh(script: './gitcommit.sh '+ env.GIT_USERNAME +' '+encoded_password+' '+gitrepo+' '+ env.branch1, returnStdout: true).trim()
+                                        ret = sh(script: './gitcommit.sh '+ env.GIT_USERNAME +' '+encoded_password+' '+gitrepo+' '+ env.branch2, returnStdout: true).trim()
                                         echo 'Git Branch Commit & Push Status: '+ret
                                         if(ret == 'OK'){
                                             echo 'git branch ' + env.branch1 + ' created'
