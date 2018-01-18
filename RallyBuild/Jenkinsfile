@@ -49,6 +49,14 @@ pipeline {
                                     if(isBranchExists == 1){
                                         sh 'git checkout ${branch2}'
                                         sh 'git merge '+sourceBranch
+                                        sh 'chmod +x gitcommit.sh'
+                                        ret = sh(script: './gitcommit.sh '+ env.GIT_USERNAME +' '+encoded_password+' '+gitrepo+' '+ env.branchName, returnStdout: true).trim()
+                                        echo 'Git Branch Commit & Push Status: '+ret
+                                        if(ret == 'OK'){
+                                            echo 'git branch ' + env.branchName + ' created'
+                                        }else{
+                                            error 'git unable to commit'
+                                        }
                                     }else{
                                         error 'branch '+ env.branchName +'doesnt exixts for merging in repository'
                                     }
