@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment { 
-        giturl = 'https://github.com/vekatkriish/apigee.git'
+        giturl = 'https://github.com/vekatkriish/apigee_2.git'
         gitCid = '46d318e0-7de7-49ab-86ae-1669225823c1'
     }
     
