@@ -20,7 +20,7 @@ pipeline {
                                  gitrepo = (env.giturl).split('//')[1].trim()
                                  dir ('RallyBuild') {
                                     isBranchExists = sh(script: 'git ls-remote --heads ${giturl} ${branch1} | wc -l', returnStdout: true).trim()
-                                    if(isBranchExists == 1){
+                                    if(isBranchExists.equals('1')){
                                         error 'branch '+ env.branch1 +'already exixts'
                                     }else{
                                         sh 'chmod +x checkLocalBranch.sh'
@@ -46,9 +46,9 @@ pipeline {
                                  sourceBranch = 'origin/'+env.branch1
                                  dir ('RallyBuild') {
                                     isBranchExists = sh(script: 'git ls-remote --heads ${giturl} ${branch1} | wc -l', returnStdout: true).trim()
-                                    if(isBranchExists == 1){
+                                    if(isBranchExists.equals('1')){
                                         sh 'git checkout ${branch2}'
-                                        sh 'git merge '+sourceBranch
+                                        sh 'git merge '+sourceBranch + '-m "feature branch ${branch1} merged"'
                                         sh 'chmod +x gitcommit.sh'
                                         ret = sh(script: './gitcommit.sh '+ env.GIT_USERNAME +' '+encoded_password+' '+gitrepo+' '+ env.branch1, returnStdout: true).trim()
                                         echo 'Git Branch Commit & Push Status: '+ret
@@ -58,7 +58,7 @@ pipeline {
                                             error 'git unable to commit'
                                         }
                                     }else{
-                                        error 'branch '+ env.branch1 +'doesnt exixts for merging in repository'
+                                        error 'branch '+ env.branch1 +' doesnt exixts for merging in repository'
                                     }
                                 }
                             }
