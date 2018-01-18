@@ -14,25 +14,25 @@ pipeline {
         stage('resolve_task') {
             steps {
                 script{
-                        if(env.branch2.equals("NA")){
+                        if(env.branch2.equals("noMerge")){
                             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: env.gitCid, usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
                                  String encoded_password = java.net.URLEncoder.encode(env.GIT_PASSWORD, "UTF-8")
                                  gitrepo = (env.giturl).split('//')[1].trim()
                                  dir ('RallyBuild') {
-                                    isBranchExists = sh(script: 'git ls-remote --heads ${giturl} ${branchName} | wc -l', returnStdout: true).trim()
+                                    isBranchExists = sh(script: 'git ls-remote --heads ${giturl} ${branch1} | wc -l', returnStdout: true).trim()
                                     if(isBranchExists == 1){
-                                        error 'branch '+ env.branchName +'already exixts'
+                                        error 'branch '+ env.branch1 +'already exixts'
                                     }else{
                                         sh 'chmod +x checkLocalBranch.sh'
-                                        isLocalBranchExists = sh(script: './checkLocalBranch.sh ${branchName}', returnStdout: true)
+                                        isLocalBranchExists = sh(script: './checkLocalBranch.sh ${branch1}', returnStdout: true)
                                         echo isLocalBranchExists+'   ****'
                                         echo 'creating new branch ....'
-                                        sh 'git branch ${branchName}'
+                                        sh 'git branch ${branch1}'
                                         sh 'chmod +x gitcommit.sh'
-                                        ret = sh(script: './gitcommit.sh '+ env.GIT_USERNAME +' '+encoded_password+' '+gitrepo+' '+ env.branchName, returnStdout: true).trim()
+                                        ret = sh(script: './gitcommit.sh '+ env.GIT_USERNAME +' '+encoded_password+' '+gitrepo+' '+ env.branch1, returnStdout: true).trim()
                                         echo 'Git Branch Commit & Push Status: '+ret
                                         if(ret == 'OK'){
-                                            echo 'git branch ' + env.branchName + ' created'
+                                            echo 'git branch ' + env.branch1 + ' created'
                                         }else{
                                             error 'git unable to commit'
                                         }
@@ -50,15 +50,15 @@ pipeline {
                                         sh 'git checkout ${branch2}'
                                         sh 'git merge '+sourceBranch
                                         sh 'chmod +x gitcommit.sh'
-                                        ret = sh(script: './gitcommit.sh '+ env.GIT_USERNAME +' '+encoded_password+' '+gitrepo+' '+ env.branchName, returnStdout: true).trim()
+                                        ret = sh(script: './gitcommit.sh '+ env.GIT_USERNAME +' '+encoded_password+' '+gitrepo+' '+ env.branch1, returnStdout: true).trim()
                                         echo 'Git Branch Commit & Push Status: '+ret
                                         if(ret == 'OK'){
-                                            echo 'git branch ' + env.branchName + ' created'
+                                            echo 'git branch ' + env.branch1 + ' created'
                                         }else{
                                             error 'git unable to commit'
                                         }
                                     }else{
-                                        error 'branch '+ env.branchName +'doesnt exixts for merging in repository'
+                                        error 'branch '+ env.branch1 +'doesnt exixts for merging in repository'
                                     }
                                 }
                             }

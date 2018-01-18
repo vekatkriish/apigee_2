@@ -6,7 +6,7 @@ options = [opt for opt in sys.argv[1:] if opt.startswith('--')]
 server, user, password, apikey, workspace, project = rallyWorkset(options)
 rally = Rally('rally1.rallydev.com', apikey="_t12c4rseRPy2LJzzdfyEZKNDAyJuIUS9lfzIoLCuxRs", workspace = 'Workspace 1', project='Sample Project', server_ping=False
 #rally = Rally(server, user, password, workspace=workspace, project=project)
-rally.enableLogging('rally.simple-use.log')
+#rally.enableLogging('rally.simple-use.log')
 
 args = sys.argv
 
