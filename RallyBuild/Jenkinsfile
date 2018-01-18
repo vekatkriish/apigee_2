@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment { 
-        giturl = 'https://github.com/vekatkriish/apigee_2.git'
+        giturl = 'https://github.com/vekatkriish/apigee.git'
         gitCid = '46d318e0-7de7-49ab-86ae-1669225823c1'
     }
     
@@ -14,30 +14,43 @@ pipeline {
         stage('resolve_task') {
             steps {
                 script{
-                        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: env.gitCid, usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
-                             String encoded_password = java.net.URLEncoder.encode(env.GIT_PASSWORD, "UTF-8")
-                             gitrepo = (env.giturl).split('//')[1].trim()
-                             dir ('RallyBuild') {
-                                isBranchExists = sh(script: 'git ls-remote --heads ${giturl} ${branchName} | wc -l', returnStdout: true).trim()
-                                if(isBranchExists == 1){
-                                    error 'branch '+ env.branchName +'already exixts'
-                                }else{
-                                    sh 'chmod +x checkLocalBranch.sh'
-                                    isLocalBranchExists = sh(script: './checkLocalBranch.sh ${branchName}', returnStdout: true)
-                                    echo isLocalBranchExists+'   ****'
-                                    if(isLocalBranchExists == true){
-                                        echo 'found local git branch so, deleting to resolve ambiguity'
-                                        sh(script: 'git branch --delete ${branchName}')
-                                    }
-                                    echo 'creating new branch ....'
-                                    sh 'git branch ${branchName}'
-                                    sh 'chmod +x gitcommit.sh'
-                                    ret = sh(script: './gitcommit.sh '+ env.GIT_USERNAME +' '+encoded_password+' '+gitrepo+' '+ env.branchName, returnStdout: true).trim()
-                                    echo 'Git Branch Commit & Push Status: '+ret
-                                    if(ret == 'OK'){
-                                        echo 'git branch ' + env.branchName + ' created'
+                        if(env.branch2.equals("NA")){
+                            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: env.gitCid, usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+                                 String encoded_password = java.net.URLEncoder.encode(env.GIT_PASSWORD, "UTF-8")
+                                 gitrepo = (env.giturl).split('//')[1].trim()
+                                 dir ('RallyBuild') {
+                                    isBranchExists = sh(script: 'git ls-remote --heads ${giturl} ${branchName} | wc -l', returnStdout: true).trim()
+                                    if(isBranchExists == 1){
+                                        error 'branch '+ env.branchName +'already exixts'
                                     }else{
-                                        error 'git unable to commit'
+                                        sh 'chmod +x checkLocalBranch.sh'
+                                        isLocalBranchExists = sh(script: './checkLocalBranch.sh ${branchName}', returnStdout: true)
+                                        echo isLocalBranchExists+'   ****'
+                                        echo 'creating new branch ....'
+                                        sh 'git branch ${branchName}'
+                                        sh 'chmod +x gitcommit.sh'
+                                        ret = sh(script: './gitcommit.sh '+ env.GIT_USERNAME +' '+encoded_password+' '+gitrepo+' '+ env.branchName, returnStdout: true).trim()
+                                        echo 'Git Branch Commit & Push Status: '+ret
+                                        if(ret == 'OK'){
+                                            echo 'git branch ' + env.branchName + ' created'
+                                        }else{
+                                            error 'git unable to commit'
+                                        }
+                                    }
+                                }
+                            }
+                        }else if(!env.branch2.equals("NA") && !env.branch2.equals("")){
+                            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: env.gitCid, usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+                                 String encoded_password = java.net.URLEncoder.encode(env.GIT_PASSWORD, "UTF-8")
+                                 gitrepo = (env.giturl).split('//')[1].trim()
+                                 sourceBranch = 'origin/'+env.branch1
+                                 dir ('RallyBuild') {
+                                    isBranchExists = sh(script: 'git ls-remote --heads ${giturl} ${branch1} | wc -l', returnStdout: true).trim()
+                                    if(isBranchExists == 1){
+                                        sh 'git checkout ${branch2}'
+                                        sh 'git merge '+sourceBranch
+                                    }else{
+                                        error 'branch '+ env.branchName +'doesnt exixts for merging in repository'
                                     }
                                 }
                             }

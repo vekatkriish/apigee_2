@@ -5,7 +5,7 @@ pipeline {
         stage('script_checkout') {
             steps {
                 script{
-                    git changelog: false, credentialsId: '46d318e0-7de7-49ab-86ae-1669225823c1', poll: false, url: 'https://github.com/vekatkriish/apigee_2.git'
+                    git changelog: false, credentialsId: 'dfab18cc-f6ae-4d8e-abef-20bf702446bd', poll: false, url: 'http://laxmi@10.255.242.153:7990/scm/rt/rally-v1.git'
                 }
             }
         }

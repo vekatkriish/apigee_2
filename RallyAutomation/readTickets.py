@@ -23,8 +23,17 @@ if not response.errors:
     for story in response:
         for task in story.Tasks:
         	if task.State == 'Defined':
-        		branch = task.Description.split(";")[0].split(":")[1]
-        		print task.oid, task.Name, task.Notes, branch, task.State, task.FormattedID, branch, '&&&&&&& values ******'
-        		initstr = "./startPipeline.sh "+pipelineUrl+ ' ' + os.environ['runame']+':'+os.environ['rtoken']+" "+branch+" "+task.Notes+" "+task.FormattedID
-        		print initstr
-        		os.system(initstr)
+        		taskType = task.Description.split(";")[0].split(":")[0].trim()
+        		if (taskType == 'merge'):
+        			branch = task.Description.split(";")[1].split(":")[1]
+        			print task.oid, task.Name, task.Notes, branch, task.State, task.FormattedID
+        			initstr = "./startPipeline.sh "+'pipelineUrl'+os.environ['runame']+':'+os.environ['rtoken']+" "+task.Notes+" "+task.FormattedID+" "+branch+" "+"NA"
+        			print initstr
+        			os.system(initstr)
+        		elif (taskType == 'createBranch'):
+        			fromBranch = task.Description.split(";")[1].split(":")[1]
+        			toBranch = task.Description.split(";")[2].split(":")[1]
+        			print task.oid, task.Name, task.Notes, task.State, task.FormattedID, fromBranch, toBranch
+        			initstr = "./startPipeline.sh "+pipelineUrl+ ' ' + os.environ['runame']+':'+os.environ['rtoken']+" "+task.Notes+" "+task.FormattedID+" "+fromBranch+" "+toBranch
+        			print initstr
+        			os.system(initstr)
