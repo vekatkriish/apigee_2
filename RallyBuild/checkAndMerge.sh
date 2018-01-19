@@ -6,7 +6,7 @@ then
   git merge $2 -m "feature branch $2 merged"
   if [[ "$(git push https://$4:$5@$6 $7 --porcelain)" == *"Done"* ]]
 	then
-	  echo "OK"
+	  echo "ok"
 	else
 		echo "error"
 	fi

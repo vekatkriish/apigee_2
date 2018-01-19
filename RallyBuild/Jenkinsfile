@@ -48,6 +48,11 @@ pipeline {
                                     sh 'chmod +x checkAndMerge.sh'
                                     isMergeBranchExists = sh(script: './checkAndMerge.sh ${giturl} ${branch1} ${branch2}'+' ' + env.GIT_USERNAME + ' ' + encoded_password + ' ' + gitrepo + ' ' + env.branch2, returnStdout: true).trim()
                                     echo isMergeBranchExists + " inside check  "+isMergeBranchExists.length()
+                                    if(isMergeBranchExists == 'ok'){
+                                        echo 'merge success'
+                                    }else{
+                                        echo 'merge failed'
+                                    }
                                 }
                             }
                         }
