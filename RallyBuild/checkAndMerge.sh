@@ -1,9 +1,9 @@
 #!/bin/bash
 
-if [[ "$(git ls-remote --heads $1 | wc -l)" == *"1"* ]]
+if [[ "$(git ls-remote --heads $1 $2 | wc -l)" == *"1"* ]]
 then
-  git checkout $2
-  git merge $1 -m 'feature branch $1 merged'
+  git checkout $3
+  git merge $2 -m 'feature branch $2 merged'
   echo "OK"
 else
   echo "error"

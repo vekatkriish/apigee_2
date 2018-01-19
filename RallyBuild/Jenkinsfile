@@ -46,7 +46,7 @@ pipeline {
                                  sourceBranch = 'origin/'+env.branch1
                                  dir ('RallyBuild') {
                                     sh 'chmod +x checkAndMerge.sh'
-                                    isBranchExists = sh(script: './checkAndMerge.sh ${branch1} ${branch2}', returnStdout: true).trim()
+                                    isBranchExists = sh(script: './checkAndMerge.sh ${giturl} ${branch1} ${branch2}', returnStdout: true).trim()
                                     if(isBranchExists.equals("OK")){
                                         /*sh 'git checkout ${branch2}'
                                         sh 'git merge '+sourceBranch + ' -m "feature branch ${branch1} merged"'*/
