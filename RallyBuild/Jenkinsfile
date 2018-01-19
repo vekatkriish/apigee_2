@@ -48,20 +48,6 @@ pipeline {
                                     sh 'chmod +x checkAndMerge.sh'
                                     isMergeBranchExists = sh(script: './checkAndMerge.sh ${giturl} ${branch1} ${branch2}'+' ' + env.GIT_USERNAME + ' ' + encoded_password + ' ' + gitrepo + ' ' + env.branch2, returnStdout: true).trim()
                                     echo isMergeBranchExists + " inside check  "+isMergeBranchExists.length()
-                                    /*if(isMergeBranchExists == "OK"){
-                                        sh 'git checkout ${branch2}'
-                                        sh 'git merge '+sourceBranch + ' -m "feature branch ${branch1} merged"'*/
-                                        sh 'chmod +x gitcommit.sh'
-                                        ret = sh(script: './gitcommit.sh '+ env.GIT_USERNAME +' '+encoded_password+' '+gitrepo+' '+ env.branch2, returnStdout: true).trim()
-                                        echo 'Git Branch Commit & Push Status: '+ret
-                                        if(ret == 'OK'){
-                                            echo 'git branch ' + env.branch1 + ' created'
-                                        }else{
-                                            error 'git unable to commit'
-                                        }
-                                    }else{
-                                        error 'branch '+ env.branch1 +' doesnt exixts for merging in repository'
-                                    }*/
                                 }
                             }
                         }
