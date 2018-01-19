@@ -45,10 +45,11 @@ pipeline {
                                  gitrepo = (env.giturl).split('//')[1].trim()
                                  sourceBranch = 'origin/'+env.branch1
                                  dir ('RallyBuild') {
-                                    isBranchExists = sh(script: 'git ls-remote --heads ${giturl} ${branch1} | wc -l', returnStdout: true).trim()
-                                    if(isBranchExists.equals('1')){
-                                        sh 'git checkout ${branch2}'
-                                        sh 'git merge '+sourceBranch + ' -m "feature branch ${branch1} merged"'
+                                    sh 'chmod +x checkAndMerge.sh'
+                                    isBranchExists = sh(script: './checkAndMerge.sh ${branch1} ${branch2}', returnStdout: true).trim()
+                                    if(isBranchExists.equals("OK")){
+                                        /*sh 'git checkout ${branch2}'
+                                        sh 'git merge '+sourceBranch + ' -m "feature branch ${branch1} merged"'*/
                                         sh 'chmod +x gitcommit.sh'
                                         ret = sh(script: './gitcommit.sh '+ env.GIT_USERNAME +' '+encoded_password+' '+gitrepo+' '+ env.branch2, returnStdout: true).trim()
                                         echo 'Git Branch Commit & Push Status: '+ret
