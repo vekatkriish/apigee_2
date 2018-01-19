@@ -40,7 +40,7 @@ pipeline {
                                 }
                             }
                         }else if(!env.branch2.equals("NA") && !env.branch2.equals("")){
-                            isMergeBranchExists = ''
+                            String isMergeBranchExists = ''
                             dir ('RallyBuild') {
                                 sh 'chmod +x checkAndMerge.sh'
                                 isMergeBranchExists = sh(script: './checkAndMerge.sh ${giturl} ${branch1} ${branch2}', returnStdout: true).trim()
