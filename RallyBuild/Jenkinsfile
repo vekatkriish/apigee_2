@@ -51,9 +51,13 @@ pipeline {
                                  gitrepo = (env.giturl).split('//')[1].trim()
                                  sourceBranch = 'origin/'+env.branch1
                                  dir ('RallyBuild') {
+                                        sh 'chmod +x checkAndMerge.sh'
+                                        isMergeBranchExists = sh(script: './checkAndMerge.sh ${giturl} ${branch1} ${branch2}'+' '+env.GIT_USERNAME +' ' + encoded_password + ' ' + gitrepo + ' ' + env.branch2', returnStdout: true).trim()
+                                        echo isMergeBranchExists+"  result of mereged branch"
+                                        
                                     echo isMergeBranchExists + " inside check  "+isMergeBranchExists.length()
-                                    if(isMergeBranchExists == "OK"){
-                                        /*sh 'git checkout ${branch2}'
+                                    /*if(isMergeBranchExists == "OK"){
+                                        sh 'git checkout ${branch2}'
                                         sh 'git merge '+sourceBranch + ' -m "feature branch ${branch1} merged"'*/
                                         sh 'chmod +x gitcommit.sh'
                                         ret = sh(script: './gitcommit.sh '+ env.GIT_USERNAME +' '+encoded_password+' '+gitrepo+' '+ env.branch2, returnStdout: true).trim()
@@ -65,7 +69,7 @@ pipeline {
                                         }
                                     }else{
                                         error 'branch '+ env.branch1 +' doesnt exixts for merging in repository'
-                                    }
+                                    }*/
                                 }
                             }
                         }
