@@ -51,6 +51,7 @@ pipeline {
                                  gitrepo = (env.giturl).split('//')[1].trim()
                                  sourceBranch = 'origin/'+env.branch1
                                  dir ('RallyBuild') {
+                                    echo isMergeBranchExists + " inside check  "+isMergeBranchExists.length()
                                     if(isMergeBranchExists.equals("OK")){
                                         /*sh 'git checkout ${branch2}'
                                         sh 'git merge '+sourceBranch + ' -m "feature branch ${branch1} merged"'*/
