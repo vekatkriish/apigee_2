@@ -72,7 +72,7 @@ pipeline {
         success {
             script{
                 dir ('RallyBuild') {
-                    sh 'python updateTask.py $fmtId $notes $BUILD_URL'
+                    sh 'python updateTask.py ${fmtId} ${notes} ${BUILD_URL}'
                 }
             script{
                 mail (to: env.notes.split(';')[0].trim(),
