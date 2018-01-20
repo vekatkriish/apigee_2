@@ -43,9 +43,12 @@ pipeline {
                         def giturl= props['git_url']
                         def gituser = props['git_username']
                         def gitpass = props['git_password']
+                        def gitrepo= props['git_repo']
 
                         sh "chmod +x mergingBranch.sh"
-                        sh "./mergingBranch.sh ${giturl} ${branch1} ${branch2} ${gituser} ${gitpass}"
+                        //sh "./mergingBranch.sh ${giturl} ${branch1} ${branch2} ${gituser} ${gitpass} ${gitrepo}"
+                        mergeStatus = sh(script: './mergingBranch.sh ${giturl} ${branch1} ${branch2} ${gituser} ${gitpass} ${gitrepo}', returnStdout: true).trim()
+                        echo mergeStatus+"    "+mergeStatus.length()
                     } 
                 }
             }
