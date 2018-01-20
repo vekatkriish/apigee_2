@@ -3,9 +3,12 @@ pipeline {
 
     stages {
         stage('SCM'){
-            script{
-                git changelog: false, credentialsId: '46d318e0-7de7-49ab-86ae-1669225823c1', poll: false, url: 'https://github.com/vekatkriish/apigee_2.git'
+            steps {
+                script{
+                    git changelog: false, credentialsId: '46d318e0-7de7-49ab-86ae-1669225823c1', poll: false, url: 'https://github.com/vekatkriish/apigee_2.git'
+                }
             }
+            
         }
         stage('GIT_BRANCHCReation'){
             steps {
