@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    script{
+        sh "echo "my name is venkatesh""
+    }
 
     stages {
         stage('script_checkout') {
