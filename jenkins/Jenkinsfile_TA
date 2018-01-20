@@ -47,7 +47,7 @@ pipeline {
 
                         sh "chmod +x mergingBranch.sh"
                         //sh "./mergingBranch.sh ${giturl} ${branch1} ${branch2} ${gituser} ${gitpass} ${gitrepo}"
-                        mergeStatus = sh(script: './mergingBranch.sh ${giturl} ${branch1} ${branch2} ${gituser} ${gitpass} ${gitrepo}', returnStdout: true).trim()
+                        mergeStatus = sh(script: "./mergingBranch.sh ${giturl} ${branch1} ${branch2} ${gituser} ${gitpass} ${gitrepo}", returnStdout: true).trim()
                         echo mergeStatus+"    "+mergeStatus.length()
                     } 
                 }

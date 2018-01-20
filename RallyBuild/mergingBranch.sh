@@ -10,12 +10,12 @@ then
   
   echo "pushing the branch to remote repository...."
 
-  	if [[ "$(git push https://$4:$5@$6 $3 --porcelain)" == *"Done"* ]]
-  	then
-  		echo "ok"
-    else
+  if [[ "$(git push https://$4:$5@$6 $3 --porcelain)" == *"Done"* ]]
+  then
+  	echo "ok"
+  else
 		echo "error"
-  	fi
+  fi
 else
   echo "error"
 fi
