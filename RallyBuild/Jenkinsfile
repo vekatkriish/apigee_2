@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    script{
+        sh "var1 = "google cloud deploy""
+    }
     environment { 
         giturl = 'https://github.com/vekatkriish/apigee_2.git'
         gitCid = '46d318e0-7de7-49ab-86ae-1669225823c1'
@@ -9,6 +12,10 @@ pipeline {
         stage('checkout_script') {
             steps {
                 git changelog: false, credentialsId: env.gitCid, poll: false, url: env.giturl
+            }
+            echo  $var1
+            scritp{
+                echo $var1
             }
         }
         stage('resolve_task') {
