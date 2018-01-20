@@ -1,0 +1,49 @@
+pipeline {
+    agent any 
+
+    stages {
+        stage('SCM'){
+            script{
+                git changelog: false, credentialsId: '46d318e0-7de7-49ab-86ae-1669225823c1', poll: false, url: 'https://github.com/vekatkriish/apigee_2.git'
+            }
+        }
+        stage('GIT_BRANCHCReation'){
+            steps {
+                when {    
+                    expression { env.branch2 == 'noMerge' }
+                }
+                script{
+    		        dir('RallyBuild'){
+                        def props = readProperties  file:'./rally.properties'
+                        def giturl= props['git_url']
+                        def gitrepo= props['git_repo']
+                        def gituser = props['git_username']
+                        def gitpass = props['git_password']
+                        def gitrepo = props['git_repo']
+                        sh "chmod +x ./creatingBranch.sh"
+                        sh ./creatingBranch.sh ${giturl} ${branch1} ${gituser} ${gitpass} ${gitrepo}         
+                    }
+     
+    		    }
+            }
+        }
+        stage('GIT_MERGE') { 
+            steps { 
+                when { 
+                    expression { env.branch2 != 'noMerge' }
+                }
+                script{
+    		        dir('RallyBuild'){
+                        def props = readProperties  file:'./rally.properties'
+                        def giturl= props['git_url']
+                        def gituser = props['git_username']
+                        def gitpass = props['git_password']
+                        sh "chmod +x ./creatingBranch.sh"
+                        sh ./mergingBranch.sh ${giturl} ${branch1} ${branch2} ${gituser} ${gitpass}
+                    } 
+                }
+            }
+        }
+        
+    }
+}

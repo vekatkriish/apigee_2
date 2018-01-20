@@ -1,0 +1,36 @@
+pipeline {
+    agent any 
+
+    stages {
+        stage('GIT_REPO') { 
+            steps { 
+                sh 'make' 
+            }
+        }
+        stage('apiggelint execution'){
+            steps {
+                script{
+                    sh 'echo "apiggelint execution"'
+                    sh 'cd ${WORKSPACE}/${apiproxyname}'
+                    sh 'apigeelint -s ./apiproxy -f table.js'
+                }
+            }
+        }
+        stage('newmen execution'){
+            steps{
+                script{
+                    sh 'echo "newman execution"'
+                    sh 'cd $WORKSPACE/${apiproxyname}/test'
+                    sh 'newman run genericdevices-MS.json --insecure'
+                }
+            }
+        }
+        stage('Build') {
+            steps {
+                Root pom: ${projectname}/pom.xml
+                Goals and options: apigee-enterprise:deploy -Ptest -Dusername=**** -Dpassword=${password} -D{hosturl} -Dorg=${org} -Doptions=update -Drevision=43
+                sh 'make publish'
+            }
+        }
+    }
+}
