@@ -11,10 +11,11 @@ pipeline {
             
         }
         stage('GIT_BRANCHCReation'){
-            steps {
-                when {    
+            when {    
                     expression { env.branch2 == 'noMerge' }
                 }
+            steps {
+                
                 script{
     		        dir('RallyBuild'){
                         def props = readProperties  file:'rally.properties'
@@ -31,10 +32,11 @@ pipeline {
             }
         }
         stage('GIT_MERGE') { 
-            steps { 
-                when { 
+            when { 
                     expression { env.branch2 != 'noMerge' }
                 }
+            steps { 
+                
                 script{
     		        dir('RallyBuild'){
                         def props = readProperties  file:'rally.properties'
