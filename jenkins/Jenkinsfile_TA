@@ -14,7 +14,7 @@ pipeline {
                 }
                 script{
     		        dir('RallyBuild'){
-                        def props = readProperties  file:'./rally.properties'
+                        def props = readProperties  file:'rally.properties'
                         def giturl= props['git_url']
                         def gitrepo= props['git_repo']
                         def gituser = props['git_username']
@@ -34,7 +34,7 @@ pipeline {
                 }
                 script{
     		        dir('RallyBuild'){
-                        def props = readProperties  file:'./rally.properties'
+                        def props = readProperties  file:'rally.properties'
                         def giturl= props['git_url']
                         def gituser = props['git_username']
                         def gitpass = props['git_password']
