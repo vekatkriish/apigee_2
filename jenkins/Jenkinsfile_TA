@@ -19,9 +19,9 @@ pipeline {
                         def gitrepo= props['git_repo']
                         def gituser = props['git_username']
                         def gitpass = props['git_password']
-                        def gitrepo = props['git_repo']
-                        sh "chmod +x ./creatingBranch.sh"
-                        sh ./creatingBranch.sh ${giturl} ${branch1} ${gituser} ${gitpass} ${gitrepo}         
+
+                        sh "chmod +x creatingBranch.sh"
+                        sh "./creatingBranch.sh ${giturl} ${branch1} ${gituser} ${gitpass} ${gitrepo}"
                     }
      
     		    }
@@ -38,8 +38,9 @@ pipeline {
                         def giturl= props['git_url']
                         def gituser = props['git_username']
                         def gitpass = props['git_password']
-                        sh "chmod +x ./creatingBranch.sh"
-                        sh ./mergingBranch.sh ${giturl} ${branch1} ${branch2} ${gituser} ${gitpass}
+
+                        sh "chmod +x mergingBranch.sh"
+                        sh "./mergingBranch.sh ${giturl} ${branch1} ${branch2} ${gituser} ${gitpass}"
                     } 
                 }
             }
