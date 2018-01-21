@@ -1,8 +1,8 @@
 #!/bin/bash
 # $1 = giturl; $2 = frombranch ;$3 = tobranch;$4 = username;$5 = password;$6 = gitrepo
 
-GITUNM="$(echo $4== | base64 --decode)"
-GITPWD="$(echo $5== | base64 --decode)"
+GITUNM="$(echo $4 | base64 --decode)"
+GITPWD="$(echo $5 | base64 --decode)"
 
 if [[ "$(git ls-remote --heads $1 $2 | wc -l)" == *"1"* ]]
 then
