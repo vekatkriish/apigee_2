@@ -1,6 +1,9 @@
 #!/bin/bash
 # $1 = giturl; $2 = frombranch ;$3 = tobranch;$4 = username;$5 = password;$6 = gitrepo
 
+GITUN="$(echo $4== | base64 --decode)"
+GITPW="$(echo $5== | base64 --decode)"
+
 if [[ "$(git ls-remote --heads $1 $2 | wc -l)" == *"1"* ]]
 then
   echo "checkout to $3...."
@@ -10,7 +13,7 @@ then
   
   echo "pushing the branch to remote repository...."
 
-  if [[ "$(git push https://$4:$5@$6 $3 --porcelain)" == *"Done"* ]]
+  if [[ "$(git push https://${GITUN}:${GITPW}@$6 $3 --porcelain)" == *"Done"* ]]
   then
   	echo "Merging $2 with $3 was pushed successfully"
   else
