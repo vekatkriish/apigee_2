@@ -1,8 +1,8 @@
 #!/bin/bash
 # $1 = giturl; $2 = branch;$3 = username;$4 = password;$5 = git_repo
 
-GITUN="$(echo $3== | base64 --decode)"
-GITPW="$(echo $4== | base64 --decode)"
+GITUNM="$(echo $3== | base64 --decode)"
+GITPWD="$(echo $4== | base64 --decode)"
 if [[ "$(git ls-remote --heads $1 $2 | wc -l)" == *"1"* ]]
 then
   echo "Branch already exists in remote repository"
@@ -23,7 +23,7 @@ else
 
   	echo "pushing the branch to remote repository...."
   	
-  	if [[ "$(git push https://${GITUN}:${GITPW}@$5 $2 --porcelain)" == *"Done"* ]]
+  	if [[ "$(git push https://${GITUNM}:${GITPWD}@$5 $2 --porcelain)" == *"Done"* ]]
   	then
   		echo "ok"
     else
