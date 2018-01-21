@@ -5,7 +5,7 @@ pipeline {
         stage('SCM'){
             steps {
                 script{
-                    git changelog: false, credentialsId: '46d318e0-7de7-49ab-86ae-1669225823c1', poll: false, url: 'https://github.com/vekatkriish/apigee_2.git'
+                    git changelog: false,redentialsId:46d318e0-7de7-49ab-86ae-1669225823c1, poll: false, url: https://github.com/vekatkriish/apigee_2.git
                 }
             }
             
@@ -24,8 +24,8 @@ pipeline {
                         def gituser = props['git_username']
                         def gitpass = props['git_password']
 
-                        sh "chmod +x creatingBranch.sh"
-                        sh "./creatingBranch.sh ${giturl} ${branch1} ${gituser} ${gitpass} ${gitrepo}"
+                        sh "chmod +x ../scripts/gitutils.sh"
+                        sh "../scripts/gitutils.sh createBranch ${giturl} ${gituser} ${gitpass} ${gitrepo} ${branch1}"
                     }
      
     		    }
@@ -45,10 +45,8 @@ pipeline {
                         def gitpass = props['git_password']
                         def gitrepo= props['git_repo']
 
-                        sh "chmod +x mergingBranch.sh"
-                        //sh "./mergingBranch.sh ${giturl} ${branch1} ${branch2} ${gituser} ${gitpass} ${gitrepo}"
-                        mergeStatus = sh(script: "./mergingBranch.sh ${giturl} ${branch1} ${branch2} ${gituser} ${gitpass} ${gitrepo}", returnStdout: true).trim()
-                        echo mergeStatus+"    "+mergeStatus.length()
+                        sh "chmod +x ../scripts/gitutils.sh"
+                        sh "../scripts/gitutils.sh merge ${giturl} ${gituser} ${gitpass} ${gitrepo} ${branch1} ${branch2}"
                     } 
                 }
             }
