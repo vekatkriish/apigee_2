@@ -68,11 +68,13 @@ pipeline {
                     }else if(env.branch2 != 'noMerge'){
                         sub = 'Job merging branch ' + env.JOB_NAME+' with build no '+env.BUILD_NUMBER+' is sucesses'
                     }
-                    mail (to: env.notes.split(';')[0].trim(), subject: ${sub}, body: emailBody);
+                    mail (to: env.notes.split(';')[0].trim(), subject: '${sub}', body: '$emailBody');
+                    deleteDir()
                 }
             }
             failure {
                 echo 'failed build'
+                deleteDir()
             }
     }
 }
