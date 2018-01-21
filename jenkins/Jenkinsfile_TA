@@ -59,7 +59,7 @@ pipeline {
             success {
                 script{
                     def sub = ''
-                    def emailBody = 'Please visit $BUILD_URL for more details.'
+                    def emailBody = 'Please visit '+env.BUILD_URL+' for more details.'
                     dir ('RallyBuild') {
                         sh 'python updateTask.py $fmtId ' + env.notes + ' $BUILD_URL'
                     }
