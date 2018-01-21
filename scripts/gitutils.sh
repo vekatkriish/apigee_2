@@ -4,8 +4,6 @@
 
 GITUNM="$(echo $3 | base64 --decode)"
 GITPWD="$(echo $4 | base64 --decode)"
-echo "${GITUNM}"
-echo "${GITPWD}"
 
 case "$1" in
 	'clone')
