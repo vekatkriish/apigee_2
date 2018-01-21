@@ -53,6 +53,26 @@ pipeline {
                 }
             }
         }
+        post {
+            success {
+                script{
+                    def sub = ''
+                    def emailBody = 'Please visit $BUILD_URL for more details.'
+                    dir ('RallyBuild') {
+                        sh 'python updateTask.py $fmtId ' + env.notes + ' $BUILD_URL'
+                    }
+                    if(env.branch2 == 'noMerge'){
+                        sub = 'Job creating branch ' + env.JOB_NAME+' with build no '+env.BUILD_NUMBER+' is sucesses'
+                    }else if(env.branch2 != 'noMerge'){
+                        sub = 'Job merging branch ' + env.JOB_NAME+' with build no '+env.BUILD_NUMBER+' is sucesses'
+                    }
+                    mail (to: env.notes.split(';')[0].trim(), subject: ${sub}, body: emailBody);
+                }
+            }
+            failure {
+                echo 'failed build'
+            }
+        }
         
     }
 }

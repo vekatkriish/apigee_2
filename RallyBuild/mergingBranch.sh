@@ -12,10 +12,12 @@ then
 
   if [[ "$(git push https://$4:$5@$6 $3 --porcelain)" == *"Done"* ]]
   then
-  	echo "ok"
+  	echo "Merging $2 with $3 was pushed successfully"
   else
-		echo "error"
+		echo "error pushing branch to repository"
+    exit 1
   fi
 else
-  echo "error"
+  echo "Feature branch $2 doesnt exist to merge with $3"
+  exit 1
 fi
