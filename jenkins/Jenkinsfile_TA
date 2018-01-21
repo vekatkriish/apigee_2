@@ -5,7 +5,7 @@ pipeline {
         stage('SCM'){
             steps {
                 script{
-                    git changelog: false,redentialsId:46d318e0-7de7-49ab-86ae-1669225823c1, poll: false, url: https://github.com/vekatkriish/apigee_2.git
+                    git changelog: false, credentialsId: '46d318e0-7de7-49ab-86ae-1669225823c1', poll: false, url: 'https://github.com/vekatkriish/apigee_2.git'
                 }
             }
             
